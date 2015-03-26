@@ -1,0 +1,41 @@
+<project name="jhi-swt-commons" default="clean-build" basedir=".">
+
+	<property name="src.dir" value="src" />
+
+	<!-- Define the necessary paths -->
+	<property name="build.dir" value="bin" />
+	<property name="lib.dir" value="lib" />
+	<property name="classes.dir" value="${build.dir}/classes" />
+	<property name="res.dir" value="res" />
+
+	<!-- Define the class path -->
+	<path id="classpath">
+		<fileset dir="${lib.dir}" includes="**/*.jar" />
+	</path>
+
+	<!-- Clean previously built files -->
+	<target name="clean">
+		<delete dir="${build.dir}" />
+	</target>
+
+	<!-- Compile the project -->
+	<target name="compile">
+		<mkdir dir="${classes.dir}" />
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" includeantruntime="false" encoding="utf-8" />
+	</target>
+
+	<!-- Create the jar files -->
+	<target name="jar" depends="compile">
+		<jar destfile="${ant.project.name}.jar" basedir="${classes.dir}">
+			<manifest>
+				<attribute name="Permissions" value="all-permissions"/>
+			</manifest>
+
+			<fileset dir="${classes.dir}"/>
+			<zipfileset dir="${res.dir}" includes="**/*.*" />
+		</jar>
+	</target>
+
+	<target name="clean-build" depends="clean,jar" />
+
+</project>
