@@ -25,7 +25,7 @@ public abstract class PropertyReader
 	/** The name of the properties file (slash necessary for MacOS X) */
 	protected String propertiesFile;
 
-	private Properties properties = new Properties();
+	protected final Properties properties = new Properties();
 
 	public PropertyReader(String propertiesFile)
 	{
