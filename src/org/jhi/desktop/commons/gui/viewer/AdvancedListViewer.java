@@ -16,20 +16,21 @@ import org.eclipse.swt.widgets.*;
 import org.jhi.desktop.commons.util.*;
 
 import java.util.*;
+import java.util.List;
 
 /**
- * {@link AdvancedComboViewer} extends {@link ComboViewer} and adds convenient methods like {@link #getSelectedItem()}
+ * {@link AdvancedListViewer} extends {@link ListViewer} and adds convenient methods like {@link #getSelectedItems()}
  *
  * @param <T> The type to display
  * @author Sebastian Raubach
  */
 @SuppressWarnings("unused")
-public abstract class AdvancedComboViewer<T> extends ComboViewer
+public abstract class AdvancedListViewer<T> extends ListViewer
 {
 
-	public AdvancedComboViewer(Composite parent, int style)
+	public AdvancedListViewer(Composite parent, int style)
 	{
-		super(parent, style | SWT.READ_ONLY);
+		super(parent, style);
 		this.setContentProvider(ArrayContentProvider.getInstance());
 	}
 
@@ -44,7 +45,9 @@ public abstract class AdvancedComboViewer<T> extends ComboViewer
 		if (StringUtils.isEmpty(displayText))
 			return;
 
-		if (getSelectedItem() != null && getDisplayText(getSelectedItem()).equals(displayText))
+		List<T> selectedItems = getSelectedItems();
+
+		if (!CollectionUtils.isEmpty(selectedItems) && getDisplayText(selectedItems.get(0)).equals(displayText))
 			return;
 
 		if (this.getInput() == null)
@@ -61,13 +64,13 @@ public abstract class AdvancedComboViewer<T> extends ComboViewer
 	 * @return The selected {@link T}
 	 */
 	@SuppressWarnings("unchecked")
-	public T getSelectedItem()
+	public List<T> getSelectedItems()
 	{
 		IStructuredSelection selection = (IStructuredSelection) getSelection();
 		if (selection == null || selection.size() < 1)
 			return null;
 		else
-			return (T) selection.getFirstElement();
+			return new ArrayList<>(selection.toList());
 	}
 
 	protected abstract String getDisplayText(T item);

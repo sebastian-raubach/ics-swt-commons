@@ -1,7 +1,7 @@
 /*
  * JHI-SWT-Commons is written and developed by Sebastian Raubach
  * from the Information and Computational Sciences Group at JHI Dundee.
- * For further information contact us at germinate@hutton.ac.uk.
+ * For further information contact us at sebastian.raubach@hutton.ac.uk.
  *
  * Copyright © 2014-2015, Information & Computational Sciences,
  * The James Hutton Institute. All rights reserved.
@@ -15,11 +15,11 @@ import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 
 /**
- * {@link GridDataUtils} is a utility class using the fluent interface code
- * style to create {@link GridData} objects
+ * {@link GridDataUtils} is a utility class using the fluent interface code style to create {@link GridData} objects
  *
  * @author Sebastian Raubach
  */
+@SuppressWarnings("unused")
 public class GridDataUtils
 {
 	public enum GridDataStyle
@@ -48,7 +48,7 @@ public class GridDataUtils
 		private boolean grabExcessHorizontalSpace;
 		private boolean grabExcessVerticalSpace;
 
-		private GridDataStyle(int horizontalAlignment, int verticalAlignment, boolean grabExcessHorizontalSpace, boolean grabExcessVerticalSpace)
+		GridDataStyle(int horizontalAlignment, int verticalAlignment, boolean grabExcessHorizontalSpace, boolean grabExcessVerticalSpace)
 		{
 			this.horizontalAlignment = horizontalAlignment;
 			this.verticalAlignment = verticalAlignment;
@@ -61,8 +61,7 @@ public class GridDataUtils
 	private boolean alreadyApplied = false;
 
 	/**
-	 * Creates a new instance of {@link GridDataUtils} with a basic
-	 * {@link GridData}
+	 * Creates a new instance of {@link GridDataUtils} with a basic {@link GridData}
 	 *
 	 * @see GridData#GridData()
 	 */
@@ -72,8 +71,7 @@ public class GridDataUtils
 	}
 
 	/**
-	 * Creates a new instance of {@link GridDataUtils} with a basic
-	 * {@link GridData}
+	 * Creates a new instance of {@link GridDataUtils} with a basic {@link GridData}
 	 *
 	 * @param style The {@link GridData} style
 	 * @see GridData#GridData(int)
@@ -84,8 +82,7 @@ public class GridDataUtils
 	}
 
 	/**
-	 * Creates a new instance of {@link GridDataUtils} with a basic
-	 * {@link GridData}
+	 * Creates a new instance of {@link GridDataUtils} with a basic {@link GridData}
 	 *
 	 * @param width  A minimum width for the column
 	 * @param height A minimum height for the row
@@ -97,21 +94,14 @@ public class GridDataUtils
 	}
 
 	/**
-	 * Creates a new instance of {@link GridDataUtils} with a basic
-	 * {@link GridData}
+	 * Creates a new instance of {@link GridDataUtils} with a basic {@link GridData}
 	 *
-	 * @param horizontalAlignment       How the {@link Control} will be positioned horizontally within
-	 *                                  a cell, one of: {@link SWT#BEGINNING} (or {@link SWT#LEFT}),
-	 *                                  {@link SWT#CENTER}, {@link SWT#END} (or {@link SWT#RIGHT}), or
-	 *                                  {@link SWT#FILL}
-	 * @param verticalAlignment         How the {@link Control} will be positioned vertically within a
-	 *                                  cell, one of: {@link SWT#BEGINNING} (or {@link SWT#TOP}),
-	 *                                  {@link SWT#CENTER}, {@link SWT#END} (or {@link SWT#BOTTOM}),
-	 *                                  or {@link SWT#FILL}
-	 * @param grabExcessHorizontalSpace Whether the cell will be made wide enough to fit the remaining
-	 *                                  horizontal space
-	 * @param grabExcessVerticalSpace   Whether the cell will be made high enough to fit the remaining
-	 *                                  vertical space
+	 * @param horizontalAlignment       How the {@link Control} will be positioned horizontally within a cell, one of: {@link SWT#BEGINNING} (or
+	 *                                  {@link SWT#LEFT}), {@link SWT#CENTER}, {@link SWT#END} (or {@link SWT#RIGHT}), or {@link SWT#FILL}
+	 * @param verticalAlignment         How the {@link Control} will be positioned vertically within a cell, one of: {@link SWT#BEGINNING} (or {@link
+	 *                                  SWT#TOP}), {@link SWT#CENTER}, {@link SWT#END} (or {@link SWT#BOTTOM}), or {@link SWT#FILL}
+	 * @param grabExcessHorizontalSpace Whether the cell will be made wide enough to fit the remaining horizontal space
+	 * @param grabExcessVerticalSpace   Whether the cell will be made high enough to fit the remaining vertical space
 	 * @see GridData#GridData(int, int, boolean, boolean)
 	 */
 	private GridDataUtils(int horizontalAlignment, int verticalAlignment, boolean grabExcessHorizontalSpace, boolean grabExcessVerticalSpace)
@@ -120,21 +110,14 @@ public class GridDataUtils
 	}
 
 	/**
-	 * Creates a new instance of {@link GridDataUtils} with a basic
-	 * {@link GridData}
+	 * Creates a new instance of {@link GridDataUtils} with a basic {@link GridData}
 	 *
-	 * @param horizontalAlignment       How the {@link Control} will be positioned horizontally within
-	 *                                  a cell, one of: {@link SWT#BEGINNING} (or {@link SWT#LEFT}),
-	 *                                  {@link SWT#CENTER}, {@link SWT#END} (or {@link SWT#RIGHT}), or
-	 *                                  {@link SWT#FILL}
-	 * @param verticalAlignment         How the {@link Control} will be positioned vertically within a
-	 *                                  cell, one of: {@link SWT#BEGINNING} (or {@link SWT#TOP}),
-	 *                                  {@link SWT#CENTER}, {@link SWT#END} (or {@link SWT#BOTTOM}),
-	 *                                  or {@link SWT#FILL}
-	 * @param grabExcessHorizontalSpace Whether the cell will be made wide enough to fit the remaining
-	 *                                  horizontal space
-	 * @param grabExcessVerticalSpace   Whether the cell will be made high enough to fit the remaining
-	 *                                  vertical space
+	 * @param horizontalAlignment       How the {@link Control} will be positioned horizontally within a cell, one of: {@link SWT#BEGINNING} (or
+	 *                                  {@link SWT#LEFT}), {@link SWT#CENTER}, {@link SWT#END} (or {@link SWT#RIGHT}), or {@link SWT#FILL}
+	 * @param verticalAlignment         How the {@link Control} will be positioned vertically within a cell, one of: {@link SWT#BEGINNING} (or {@link
+	 *                                  SWT#TOP}), {@link SWT#CENTER}, {@link SWT#END} (or {@link SWT#BOTTOM}), or {@link SWT#FILL}
+	 * @param grabExcessHorizontalSpace Whether the cell will be made wide enough to fit the remaining horizontal space
+	 * @param grabExcessVerticalSpace   Whether the cell will be made high enough to fit the remaining vertical space
 	 * @param horizontalSpan            The number of column cells that the control will take up
 	 * @param verticalSpan              The number of row cells that the control will take up
 	 * @see GridData#GridData(int, int, boolean, boolean, int, int)
@@ -145,8 +128,7 @@ public class GridDataUtils
 	}
 
 	/**
-	 * Creates a new instance of {@link GridDataUtils} based on the given
-	 * {@link GridData}
+	 * Creates a new instance of {@link GridDataUtils} based on the given {@link GridData}
 	 */
 	private GridDataUtils(GridData data)
 	{
@@ -162,8 +144,7 @@ public class GridDataUtils
 	}
 
 	/**
-	 * Creates a new {@link GridDataUtils} instance based on the predefined
-	 * {@link GridDataStyle}s
+	 * Creates a new {@link GridDataUtils} instance based on the predefined {@link GridDataStyle}s
 	 *
 	 * @param style One of the predefined {@link GridDataStyle}s
 	 */
@@ -178,8 +159,7 @@ public class GridDataUtils
 	/**
 	 * Specifies if the {@link GridData} should grab excessive horizontal space
 	 *
-	 * @param grabExcessHorizontalSpace <code>true</code> if the {@link GridData} should grab
-	 *                                  excessive horizontal space
+	 * @param grabExcessHorizontalSpace <code>true</code> if the {@link GridData} should grab excessive horizontal space
 	 * @return <code>this</code>
 	 * @see GridData#grabExcessHorizontalSpace
 	 */
@@ -192,8 +172,7 @@ public class GridDataUtils
 	/**
 	 * Specifies if the {@link GridData} should grab excessive vertical space
 	 *
-	 * @param grabExcessVerticalSpace <code>true</code> if the {@link GridData} should grab
-	 *                                  excessive vertical space
+	 * @param grabExcessVerticalSpace <code>true</code> if the {@link GridData} should grab excessive vertical space
 	 * @return <code>this</code>
 	 * @see GridData#grabExcessVerticalSpace
 	 */
@@ -334,11 +313,9 @@ public class GridDataUtils
 	}
 
 	/**
-	 * Should the {@link Control} this {@link GridData} is applied to be
-	 * excluded from the parent's {@link Layout}?
+	 * Should the {@link Control} this {@link GridData} is applied to be excluded from the parent's {@link Layout}?
 	 *
-	 * @param exclude Should the {@link Control} this {@link GridData} is applied to
-	 *                be excluded from the parent's {@link Layout}?
+	 * @param exclude Should the {@link Control} this {@link GridData} is applied to be excluded from the parent's {@link Layout}?
 	 * @return <code>this</code>
 	 * @see GridData#exclude
 	 */

@@ -1,7 +1,7 @@
 /*
  * JHI-SWT-Commons is written and developed by Sebastian Raubach
  * from the Information and Computational Sciences Group at JHI Dundee.
- * For further information contact us at germinate@hutton.ac.uk.
+ * For further information contact us at sebastian.raubach@hutton.ac.uk.
  *
  * Copyright © 2014-2015, Information & Computational Sciences,
  * The James Hutton Institute. All rights reserved.
@@ -22,6 +22,7 @@ import scri.commons.gui.*;
 /**
  * @author Sebastian Raubach
  */
+@SuppressWarnings("unused")
 public class Install4jUtils
 {
 	public enum UpdateInterval
@@ -34,25 +35,24 @@ public class Install4jUtils
 
 		private String resourceId;
 
-		private UpdateInterval(String resourceId)
+		UpdateInterval(String resourceId)
 		{
 			this.resourceId = resourceId;
 		}
 
-		public String getResourceId()
+		public String getResource()
 		{
-			return resourceId;
+			return org.jhi.desktop.commons.gui.i18n.RB.getStringInternal(resourceId);
 		}
 	}
 
 	public static String VERSION;
 
-	// Toolkit details
-	private boolean isSWT = false;
-
 	// Application details
 	private static String appID, updateID;
 	private static String defaultVersionNumber = "x.x.x";
+
+	private Callback callback = null;
 
 	// User details
 	private UpdateInterval updateSchedule;
@@ -69,8 +69,8 @@ public class Install4jUtils
 	 */
 	public Install4jUtils(String appID, String updateID)
 	{
-		this.appID = appID;
-		this.updateID = updateID;
+		Install4jUtils.appID = appID;
+		Install4jUtils.updateID = updateID;
 	}
 
 	public void setUser(UpdateInterval updateSchedule, String userID, int userRating)
@@ -86,34 +86,24 @@ public class Install4jUtils
 		this.trackerURL = trackerURL;
 	}
 
-	public void setSWT(boolean isSWT)
+	public void setCallback(Callback callback)
 	{
-		this.isSWT = isSWT;
+		this.callback = callback;
 	}
 
 	/**
-	 * install4j update check. This will only work when running under the full
-	 * install4j environment, so expect exceptions everywhere else
+	 * install4j update check. This will only work when running under the full install4j environment, so expect exceptions everywhere else
 	 */
 	public void doStartUpCheck(Class jarClass)
 	{
 		getVersion(jarClass);
 		pingServer();
 
-		Runnable r = new Runnable()
-		{
-			public void run()
-			{
-				checkForUpdate();
-			}
-		};
+		Runnable r = this::checkForUpdate;
 
 		try
 		{
-			if (isSWT)
-				new Thread(r).start();
-			else
-				javax.swing.SwingUtilities.invokeAndWait(r);
+			new Thread(r).start();
 		}
 		catch (Exception e)
 		{
@@ -144,33 +134,33 @@ public class Install4jUtils
 					UpdateScheduleRegistry.setUpdateSchedule(UpdateSchedule.NEVER);
 			}
 
-			if (UpdateScheduleRegistry.checkAndReset() == false)
+			if (!UpdateScheduleRegistry.checkAndReset())
 			{
 				return;
 			}
 
 			UpdateDescriptor ud = UpdateChecker.getUpdateDescriptor(updaterURL, ApplicationDisplayMode.GUI);
 
-			if (ud.getPossibleUpdateEntry() != null)
+			boolean newVersion = ud.getPossibleUpdateEntry() != null;
+
+			if (newVersion)
 			{
 				checkForUpdate(true);
 			}
+
+			if (callback != null)
+				callback.onUpdateAvailableStatus(newVersion);
 		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		catch (Error e)
+		catch (Exception | Error e)
 		{
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * Shows the install4j updater app to check for updates and download/install
-	 * any that are found.
+	 * Shows the install4j updater app to check for updates and download/install any that are found.
 	 */
-	public static void checkForUpdate(boolean block)
+	public void checkForUpdate(boolean block)
 	{
 		try
 		{
@@ -194,52 +184,55 @@ public class Install4jUtils
 		return VERSION;
 	}
 
-	public static void setDefaultVersionNumber(String defaultVersionNumber)
+	public void setDefaultVersionNumber(String defaultVersionNumber)
 	{
 		Install4jUtils.defaultVersionNumber = defaultVersionNumber;
 	}
 
 	private void pingServer()
 	{
-		Runnable r = new Runnable()
-		{
-			public void run()
+		Runnable r = () -> {
+			try
 			{
-				try
-				{
-					// Safely encode the URL's parameters
-					String id = URLEncoder.encode(userID, "UTF-8");
-					String version = URLEncoder.encode(VERSION, "UTF-8");
-					String locale = URLEncoder.encode("" + Locale.getDefault(), "UTF-8");
-					String os = URLEncoder.encode(System.getProperty("os.name")
-							+ " (" + System.getProperty("os.arch") + ")", "UTF-8");
-					String user = URLEncoder.encode(System.getProperty("user.name"), "UTF-8");
+				StringBuilder builder = new StringBuilder();
 
-					String addr = trackerURL + "?id=" + id + "&version="
-							+ version + "&locale=" + locale + "&rating="
-							+ userRating + "&os=" + os;
+				/* Safely encode the URL parameters */
+				builder.append(trackerURL)
+					   .append("?id=")
+					   .append(URLEncoder.encode(userID, "UTF-8"))
+					   .append("&version=")
+					   .append(URLEncoder.encode(VERSION, "UTF-8"))
+					   .append("&locale=")
+					   .append(URLEncoder.encode("" + Locale.getDefault(), "UTF-8"))
+					   .append("&rating=")
+					   .append(userRating)
+					   .append("&os=")
+					   .append(URLEncoder.encode(System.getProperty("os.name") + " (" + System.getProperty("os.arch") + ")", "UTF-8"));
 
-					// We ONLY log usernames from HUTTON-DUNDEE-LAN addresses
-					if (SystemUtils.isSCRIUser())
-						addr += "&user=" + user;
+				/* We ONLY log usernames from HUTTON-DUNDEE-LAN addresses */
+				if (SystemUtils.isSCRIUser())
+					builder.append("&user=")
+						   .append(URLEncoder.encode(System.getProperty("user.name"), "UTF-8"));
 
-					// Nudges the cgi script to log the fact that a version of
-					// Flapjack has been run
-					URL url = new URL(addr);
-					HttpURLConnection c = (HttpURLConnection) url.openConnection();
+				/* Nudges the cgi script to log the fact that a version of the application has been run */
+				URL url = new URL(builder.toString());
+				HttpURLConnection c = (HttpURLConnection) url.openConnection();
 
-					c.getResponseCode();
-					c.disconnect();
-				}
-				catch (Exception e)
-				{
-					e.printStackTrace();
-				}
+				c.getResponseCode();
+				c.disconnect();
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
 			}
 		};
 
-		// We run this in a separate thread to avoid any waits due to lack of an
-		// internet connection or the server being non-responsive
+		/* We run this in a separate thread to avoid any waits due to lack of an internet connection or the server being non-responsive */
 		new Thread(r).start();
+	}
+
+	public interface Callback
+	{
+		void onUpdateAvailableStatus(boolean available);
 	}
 }

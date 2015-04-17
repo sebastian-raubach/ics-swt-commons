@@ -1,7 +1,7 @@
 /*
  * JHI-SWT-Commons is written and developed by Sebastian Raubach
  * from the Information and Computational Sciences Group at JHI Dundee.
- * For further information contact us at germinate@hutton.ac.uk.
+ * For further information contact us at sebastian.raubach@hutton.ac.uk.
  *
  * Copyright © 2014-2015, Information & Computational Sciences,
  * The James Hutton Institute. All rights reserved.
@@ -15,32 +15,30 @@ import org.eclipse.swt.*;
 import org.eclipse.swt.widgets.*;
 
 /**
- * {@link AdvancedTableViewer} extends {@link TableViewer} and adds convenient
- * methods like {@link #getSelectedItem()}
- * 
- * @author Sebastian Raubach
+ * {@link AdvancedTableViewer} extends {@link TableViewer} and adds convenient methods like {@link #getSelectedItem()}
  *
- * @param <T>
- *            The type to display
+ * @param <T> The type to display
+ * @author Sebastian Raubach
  */
+@SuppressWarnings("unused")
 public abstract class AdvancedTableViewer<T> extends TableViewer
 {
 
-    public AdvancedTableViewer(Composite parent, int style)
-    {
-        super(parent, style | SWT.READ_ONLY);
-        this.setContentProvider(ArrayContentProvider.getInstance());
-    }
+	public AdvancedTableViewer(Composite parent, int style)
+	{
+		super(parent, style | SWT.READ_ONLY);
+		this.setContentProvider(ArrayContentProvider.getInstance());
+	}
 
-    /**
-     * Returns the selected {@link T}
-     * 
-     * @return The selected {@link T}
-     */
-    @SuppressWarnings("unchecked")
-    public T getSelectedItem()
-    {
-        IStructuredSelection selection = (IStructuredSelection) getSelection();
-        return (T) selection.getFirstElement();
-    }
+	/**
+	 * Returns the selected {@link T}
+	 *
+	 * @return The selected {@link T}
+	 */
+	@SuppressWarnings("unchecked")
+	public T getSelectedItem()
+	{
+		IStructuredSelection selection = (IStructuredSelection) getSelection();
+		return (T) selection.getFirstElement();
+	}
 }

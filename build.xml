@@ -21,7 +21,7 @@
 	<!-- Compile the project -->
 	<target name="compile">
 		<mkdir dir="${classes.dir}" />
-		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" includeantruntime="false" encoding="utf-8" />
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" includeantruntime="false" encoding="utf-8" source="8" target="8" />
 	</target>
 
 	<!-- Create the jar files -->

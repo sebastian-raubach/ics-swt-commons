@@ -1,7 +1,7 @@
 /*
  * JHI-SWT-Commons is written and developed by Sebastian Raubach
  * from the Information and Computational Sciences Group at JHI Dundee.
- * For further information contact us at germinate@hutton.ac.uk.
+ * For further information contact us at sebastian.raubach@hutton.ac.uk.
  *
  * Copyright © 2014-2015, Information & Computational Sciences,
  * The James Hutton Institute. All rights reserved.
@@ -14,12 +14,11 @@ import java.io.*;
 import java.util.*;
 
 /**
- * {@link PropertyReader} is a wrapper around {@link Properties} to read
- * properties.
+ * {@link PropertyReader} is a wrapper around {@link Properties} to read properties.
  *
  * @author Sebastian Raubach
- *
  */
+@SuppressWarnings("unused")
 public abstract class PropertyReader
 {
 	/** The name of the properties file (slash necessary for MacOS X) */
@@ -31,29 +30,23 @@ public abstract class PropertyReader
 	{
 		this.propertiesFile = propertiesFile;
 
-		if(!this.propertiesFile.startsWith("/"))
-			this.propertiesFile  = "/" + this.propertiesFile;
+		if (!this.propertiesFile.startsWith("/"))
+			this.propertiesFile = "/" + this.propertiesFile;
 	}
 
 	/**
-	 * Loads the properties {@link File}. It will try to load the local file
-	 * first (in home directory). If this file doesn't exist, it will fall back
-	 * to the default within the jar (or the local file in the project during
-	 * development).
+	 * Loads the properties {@link File}. It will try to load the local file first (in home directory). If this file doesn't exist, it will fall back
+	 * to the default within the jar (or the local file in the project during development).
 	 *
-	 * @throws IOException
-	 *             Thrown if the file interaction fails
+	 * @throws IOException Thrown if the file interaction fails
 	 */
 	public abstract void load() throws IOException;
 
 	/**
-	 * Parses the value of the given key and tries to split it on the given
-	 * separator. Returns the {@link List} of split {@link String}s
+	 * Parses the value of the given key and tries to split it on the given separator. Returns the {@link List} of split {@link String}s
 	 *
-	 * @param key
-	 *            The properties key
-	 * @param separator
-	 *            The separator
+	 * @param key       The properties key
+	 * @param separator The separator
 	 * @return The {@link List} of split {@link String}s
 	 */
 	public List<String> getPropertyListAsString(String key, String separator)
@@ -78,15 +71,11 @@ public abstract class PropertyReader
 	}
 
 	/**
-	 * Sets the value of the given key to the {@link String} returned from
-	 * {@link CollectionUtils#joinList(Collection, String)}.
+	 * Sets the value of the given key to the {@link String} returned from {@link CollectionUtils#joinList(Collection, String)}.
 	 *
-	 * @param key
-	 *            The properties key
-	 * @param items
-	 *            The {@link Collection} of {@link String}s
+	 * @param key       The properties key
+	 * @param items     The {@link Collection} of {@link String}s
 	 * @param delimiter The delimiter
-	 *
 	 * @see CollectionUtils#joinList(Collection, String)
 	 */
 	public void setPropertyList(String key, Collection<String> items, String delimiter)
@@ -106,20 +95,17 @@ public abstract class PropertyReader
 	}
 
 	/**
-	 * Stores the {@link Parameter}s from the {@link ParameterStore} to the
-	 * {@link Properties} object and then saves it using
-	 * {@link Properties#store(Writer, String)}.
+	 * Stores the {@link Parameter}s from the {@link ParameterStore} to the {@link Properties} object and then saves it using {@link
+	 * Properties#store(Writer, String)}.
 	 *
-	 * @throws IOException
-	 *             Thrown if the file interaction fails
+	 * @throws IOException Thrown if the file interaction fails
 	 */
 	public abstract void store() throws IOException;
 
 	/**
 	 * Reads a property from the .properties file
 	 *
-	 * @param propertyName
-	 *            The property to read
+	 * @param propertyName The property to read
 	 * @return The property or <code>null</code> if the property is not found
 	 */
 	public String getProperty(String propertyName)
@@ -128,13 +114,10 @@ public abstract class PropertyReader
 	}
 
 	/**
-	 * Reads a property from the .properties file. The fallback will be used if
-	 * there is no such property.
+	 * Reads a property from the .properties file. The fallback will be used if there is no such property.
 	 *
-	 * @param propertyName
-	 *            The property to read
-	 * @param fallback
-	 *            The value that is returned if the property isn't set
+	 * @param propertyName The property to read
+	 * @param fallback     The value that is returned if the property isn't set
 	 * @return The property or the fallback if the property is not found
 	 */
 	public String getProperty(String propertyName, String fallback)
@@ -147,8 +130,7 @@ public abstract class PropertyReader
 	/**
 	 * Reads an {@link Integer} property from the .properties file
 	 *
-	 * @param propertyName
-	 *            The property to read
+	 * @param propertyName The property to read
 	 * @return The {@link Integer} property
 	 */
 	public Integer getPropertyInteger(String propertyName)
@@ -157,13 +139,10 @@ public abstract class PropertyReader
 	}
 
 	/**
-	 * Reads an {@link Integer} property from the .properties file. The fallback
-	 * will be used if there is no such property.
+	 * Reads an {@link Integer} property from the .properties file. The fallback will be used if there is no such property.
 	 *
-	 * @param propertyName
-	 *            The property to read
-	 * @param fallback
-	 *            The value that is returned if the property isn't set
+	 * @param propertyName The property to read
+	 * @param fallback     The value that is returned if the property isn't set
 	 * @return The {@link Integer} property
 	 */
 	public Integer getPropertyInteger(String propertyName, int fallback)
@@ -181,8 +160,7 @@ public abstract class PropertyReader
 	/**
 	 * Reads an {@link Boolean} property from the .properties file
 	 *
-	 * @param propertyName
-	 *            The property to read
+	 * @param propertyName The property to read
 	 * @return The {@link Boolean} property
 	 */
 	public Boolean getPropertyBoolean(String propertyName)
@@ -191,13 +169,10 @@ public abstract class PropertyReader
 	}
 
 	/**
-	 * Reads an {@link Boolean} property from the .properties file. The fallback
-	 * will be used if there is no such property.
+	 * Reads an {@link Boolean} property from the .properties file. The fallback will be used if there is no such property.
 	 *
-	 * @param propertyName
-	 *            The property to read
-	 * @param fallback
-	 *            The value that is returned if the property isn't set
+	 * @param propertyName The property to read
+	 * @param fallback     The value that is returned if the property isn't set
 	 * @return The {@link Boolean} property
 	 */
 	public Boolean getPropertyBoolean(String propertyName, boolean fallback)
@@ -215,8 +190,7 @@ public abstract class PropertyReader
 	/**
 	 * Reads an {@link Long} property from the .properties file
 	 *
-	 * @param propertyName
-	 *            The property to read
+	 * @param propertyName The property to read
 	 * @return The {@link Long} property
 	 */
 	public Long getPropertyLong(String propertyName)
@@ -225,13 +199,10 @@ public abstract class PropertyReader
 	}
 
 	/**
-	 * Reads an {@link Long} property from the .properties file. The fallback
-	 * will be used if there is no such property.
+	 * Reads an {@link Long} property from the .properties file. The fallback will be used if there is no such property.
 	 *
-	 * @param propertyName
-	 *            The property to read
-	 * @param fallback
-	 *            The value that is returned if the property isn't set
+	 * @param propertyName The property to read
+	 * @param fallback     The value that is returned if the property isn't set
 	 * @return The {@link Long} property
 	 */
 	public Long getPropertyLong(String propertyName, long fallback)
@@ -249,8 +220,7 @@ public abstract class PropertyReader
 	/**
 	 * Reads an {@link Double} property from the .properties file
 	 *
-	 * @param propertyName
-	 *            The property to read
+	 * @param propertyName The property to read
 	 * @return The {@link Double} property
 	 */
 	public Double getPropertyDouble(String propertyName)
@@ -259,13 +229,10 @@ public abstract class PropertyReader
 	}
 
 	/**
-	 * Reads an {@link Double} property from the .properties file. The fallback
-	 * will be used if there is no such property.
+	 * Reads an {@link Double} property from the .properties file. The fallback will be used if there is no such property.
 	 *
-	 * @param propertyName
-	 *            The property to read
-	 * @param fallback
-	 *            The value that is returned if the property isn't set
+	 * @param propertyName The property to read
+	 * @param fallback     The value that is returned if the property isn't set
 	 * @return The {@link Double} property
 	 */
 	public Double getPropertyDouble(String propertyName, double fallback)
@@ -283,8 +250,7 @@ public abstract class PropertyReader
 	/**
 	 * Reads an {@link Float} property from the .properties file
 	 *
-	 * @param propertyName
-	 *            The property to read
+	 * @param propertyName The property to read
 	 * @return The {@link Float} property
 	 */
 	public Float getPropertyFloat(String propertyName)
@@ -293,13 +259,10 @@ public abstract class PropertyReader
 	}
 
 	/**
-	 * Reads an {@link Float} property from the .properties file. The fallback
-	 * will be used if there is no such property.
+	 * Reads an {@link Float} property from the .properties file. The fallback will be used if there is no such property.
 	 *
-	 * @param propertyName
-	 *            The property to read
-	 * @param fallback
-	 *            The value that is returned if the property isn't set
+	 * @param propertyName The property to read
+	 * @param fallback     The value that is returned if the property isn't set
 	 * @return The {@link Float} property
 	 */
 	public Float getPropertyFloat(String propertyName, float fallback)
@@ -317,10 +280,8 @@ public abstract class PropertyReader
 	/**
 	 * Reads a property from the .properties file and substitutes parameters
 	 *
-	 * @param propertyName
-	 *            The property to read
-	 * @param parameters
-	 *            The parameters to substitute
+	 * @param propertyName The property to read
+	 * @param parameters   The parameters to substitute
 	 * @return The property or null if the property is not found
 	 */
 	public String getProperty(String propertyName, Object... parameters)

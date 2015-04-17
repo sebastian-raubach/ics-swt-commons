@@ -1,7 +1,7 @@
 /*
  * JHI-SWT-Commons is written and developed by Sebastian Raubach
  * from the Information and Computational Sciences Group at JHI Dundee.
- * For further information contact us at germinate@hutton.ac.uk.
+ * For further information contact us at sebastian.raubach@hutton.ac.uk.
  *
  * Copyright © 2014-2015, Information & Computational Sciences,
  * The James Hutton Institute. All rights reserved.
@@ -17,6 +17,7 @@ import java.util.*;
 
 public class RB
 {
+	private static ResourceBundle BUNDLE_INTERNAL;
 	private static ResourceBundle BUNDLE;
 
 	public static final String WINDOW_BUTTON_ABORT      = "window.button.abort";
@@ -38,32 +39,57 @@ public class RB
 	public static final String WINDOW_BUTTON_YES        = "window.button.yes";
 	public static final String WINDOW_BUTTON_YES_TO_ALL = "window.button.yes.to.all";
 
+	public static final String INFORMATION_GENERAL_TITLE = "information.general.title";
+	public static final String WARNING_GENERAL_TITLE     = "warning.general.title";
+	public static final String ERROR_GENERAL_TITLE       = "error.general.title";
+	public static final String CONFIRM_GENERAL_TITLE     = "confirm.general.title";
+
 	public static void reset()
 	{
 		BUNDLE = ResourceBundle.getBundle("messages", new UTF8Control());
+		BUNDLE_INTERNAL = ResourceBundle.getBundle("messages-internal", new UTF8Control());
 	}
 
 	/**
-	 * Returns the {@link String} from the {@link ResourceBundle} with optional
-	 * parameter substitution using
-	 * {@link MessageFormat#format(String, Object...)}.
+	 * Returns the {@link String} from the {@link ResourceBundle} with optional parameter substitution using {@link MessageFormat#format(String,
+	 * Object...)}.
 	 *
-	 * @param key
-	 *            The key of the resource
-	 * @param arguments
-	 *            The arguments to substitute (optional)
-	 * @return The {@link String} from the {@link ResourceBundle} with
-	 *         optionally substituted parameters
-	 *
+	 * @param key       The key of the resource
+	 * @param arguments The arguments to substitute (optional)
+	 * @return The {@link String} from the {@link ResourceBundle} with optionally substituted parameters
 	 * @see ResourceBundle#getString(String)
 	 * @see MessageFormat#format(String, Object...)
 	 */
+	@SuppressWarnings("unused")
 	public static String getString(String key, Object... arguments)
 	{
 		if (BUNDLE == null)
 			reset();
 
 		String result = BUNDLE.getString(key);
+
+		// if (arguments != null && arguments.length > 0)
+		result = MessageFormat.format(result, arguments);
+
+		return result;
+	}
+
+	/**
+	 * Returns the {@link String} from the {@link ResourceBundle} with optional parameter substitution using {@link MessageFormat#format(String,
+	 * Object...)}.
+	 *
+	 * @param key       The key of the resource
+	 * @param arguments The arguments to substitute (optional)
+	 * @return The {@link String} from the {@link ResourceBundle} with optionally substituted parameters
+	 * @see ResourceBundle#getString(String)
+	 * @see MessageFormat#format(String, Object...)
+	 */
+	public static String getStringInternal(String key, Object... arguments)
+	{
+		if (BUNDLE_INTERNAL == null)
+			reset();
+
+		String result = BUNDLE_INTERNAL.getString(key);
 
 		// if (arguments != null && arguments.length > 0)
 		result = MessageFormat.format(result, arguments);
