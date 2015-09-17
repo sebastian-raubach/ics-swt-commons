@@ -8,14 +8,14 @@
  * Use is subject to the accompanying licence terms.
  */
 
-package uk.ac.hutton.swtcommons.gui;
+package jhi.swtcommons.gui;
 
 import org.eclipse.swt.*;
 import org.eclipse.swt.dnd.*;
 import org.eclipse.swt.widgets.*;
-import uk.ac.hutton.swtcommons.gui.i18n.*;
-import uk.ac.hutton.swtcommons.gui.layout.*;
-import uk.ac.hutton.swtcommons.util.*;
+import jhi.swtcommons.gui.i18n.*;
+import jhi.swtcommons.gui.layout.*;
+import jhi.swtcommons.util.*;
 
 import java.io.*;
 import java.util.*;

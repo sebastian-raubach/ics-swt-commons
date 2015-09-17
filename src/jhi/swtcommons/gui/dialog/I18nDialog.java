@@ -8,12 +8,12 @@
  * Use is subject to the accompanying licence terms.
  */
 
-package uk.ac.hutton.swtcommons.gui.dialog;
+package jhi.swtcommons.gui.dialog;
 
 import org.eclipse.jface.dialogs.*;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.widgets.*;
-import uk.ac.hutton.swtcommons.gui.i18n.*;
+import jhi.swtcommons.gui.i18n.*;
 
 /**
  * {@link I18nDialog} extends {@link Dialog}. It overrides {@link #createButton(Composite, int, String, boolean)} and replaces the default English

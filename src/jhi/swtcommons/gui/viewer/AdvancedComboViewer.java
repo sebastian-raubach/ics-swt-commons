@@ -8,29 +8,28 @@
  * Use is subject to the accompanying licence terms.
  */
 
-package uk.ac.hutton.swtcommons.gui.viewer;
+package jhi.swtcommons.gui.viewer;
 
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.*;
 import org.eclipse.swt.widgets.*;
-import uk.ac.hutton.swtcommons.util.*;
+import jhi.swtcommons.util.*;
 
 import java.util.*;
-import java.util.List;
 
 /**
- * {@link AdvancedListViewer} extends {@link ListViewer} and adds convenient methods like {@link #getSelectedItems()}
+ * {@link AdvancedComboViewer} extends {@link ComboViewer} and adds convenient methods like {@link #getSelectedItem()}
  *
  * @param <T> The type to display
  * @author Sebastian Raubach
  */
 @SuppressWarnings("unused")
-public abstract class AdvancedListViewer<T> extends ListViewer
+public abstract class AdvancedComboViewer<T> extends ComboViewer
 {
 
-	public AdvancedListViewer(Composite parent, int style)
+	public AdvancedComboViewer(Composite parent, int style)
 	{
-		super(parent, style);
+		super(parent, style | SWT.READ_ONLY);
 		this.setContentProvider(ArrayContentProvider.getInstance());
 	}
 
@@ -45,9 +44,7 @@ public abstract class AdvancedListViewer<T> extends ListViewer
 		if (StringUtils.isEmpty(displayText))
 			return;
 
-		List<T> selectedItems = getSelectedItems();
-
-		if (!CollectionUtils.isEmpty(selectedItems) && getDisplayText(selectedItems.get(0)).equals(displayText))
+		if (getSelectedItem() != null && getDisplayText(getSelectedItem()).equals(displayText))
 			return;
 
 		if (this.getInput() == null)
@@ -64,13 +61,13 @@ public abstract class AdvancedListViewer<T> extends ListViewer
 	 * @return The selected {@link T}
 	 */
 	@SuppressWarnings("unchecked")
-	public List<T> getSelectedItems()
+	public T getSelectedItem()
 	{
 		IStructuredSelection selection = (IStructuredSelection) getSelection();
 		if (selection == null || selection.size() < 1)
 			return null;
 		else
-			return new ArrayList<>(selection.toList());
+			return (T) selection.getFirstElement();
 	}
 
 	protected abstract String getDisplayText(T item);

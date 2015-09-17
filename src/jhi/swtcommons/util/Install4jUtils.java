@@ -8,7 +8,7 @@
  * Use is subject to the accompanying licence terms.
  */
 
-package uk.ac.hutton.swtcommons.util;
+package jhi.swtcommons.util;
 
 import com.install4j.api.launcher.*;
 import com.install4j.api.update.*;
@@ -42,7 +42,7 @@ public class Install4jUtils
 
 		public String getResource()
 		{
-			return uk.ac.hutton.swtcommons.gui.i18n.RB.getStringInternal(resourceId);
+			return jhi.swtcommons.gui.i18n.RB.getStringInternal(resourceId);
 		}
 	}
 

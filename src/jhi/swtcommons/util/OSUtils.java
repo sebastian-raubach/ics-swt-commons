@@ -8,7 +8,7 @@
  * Use is subject to the accompanying licence terms.
  */
 
-package uk.ac.hutton.swtcommons.util;
+package jhi.swtcommons.util;
 
 import org.eclipse.swt.program.*;
 

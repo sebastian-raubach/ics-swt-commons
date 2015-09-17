@@ -8,7 +8,7 @@
  * Use is subject to the accompanying licence terms.
  */
 
-package uk.ac.hutton.swtcommons.gui.viewer;
+package jhi.swtcommons.gui.viewer;
 
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.*;

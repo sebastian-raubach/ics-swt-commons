@@ -8,11 +8,11 @@
  * Use is subject to the accompanying licence terms.
  */
 
-package uk.ac.hutton.swtcommons.util;
+package jhi.swtcommons.util;
 
 import org.eclipse.jface.dialogs.*;
 import org.eclipse.swt.widgets.*;
-import uk.ac.hutton.swtcommons.gui.i18n.*;
+import jhi.swtcommons.gui.i18n.*;
 
 /**
  * {@link DialogUtils} contains methods to create {@link MessageDialog}s. All {@link MessageDialog}s are opened on the main thread, which makes

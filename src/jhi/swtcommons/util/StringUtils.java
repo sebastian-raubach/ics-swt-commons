@@ -8,7 +8,7 @@
  * Use is subject to the accompanying licence terms.
  */
 
-package uk.ac.hutton.swtcommons.util;
+package jhi.swtcommons.util;
 
 /**
  * {@link StringUtils} contains methods to manipulate/check {@link String}s.

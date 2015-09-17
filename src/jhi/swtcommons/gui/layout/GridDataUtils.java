@@ -8,7 +8,7 @@
  * Use is subject to the accompanying licence terms.
  */
 
-package uk.ac.hutton.swtcommons.gui.layout;
+package jhi.swtcommons.gui.layout;
 
 import org.eclipse.swt.*;
 import org.eclipse.swt.layout.*;

@@ -8,7 +8,7 @@
  * Use is subject to the accompanying licence terms.
  */
 
-package uk.ac.hutton.swtcommons.gui.i18n;
+package jhi.swtcommons.gui.i18n;
 
 import java.io.*;
 import java.net.*;

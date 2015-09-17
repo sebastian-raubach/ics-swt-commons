@@ -8,13 +8,13 @@
  * Use is subject to the accompanying licence terms.
  */
 
-package uk.ac.hutton.swtcommons.gui.dialog;
+package jhi.swtcommons.gui.dialog;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
-import uk.ac.hutton.swtcommons.gui.layout.*;
+import jhi.swtcommons.gui.layout.*;
 
 /**
  * {@link BannerDialog} is a {@link Dialog} that adds a Germinate banner to the top.
