@@ -17,8 +17,6 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-import scri.commons.gui.*;
-
 /**
  * @author Sebastian Raubach
  */
@@ -210,7 +208,7 @@ public class Install4jUtils
 					   .append(URLEncoder.encode(System.getProperty("os.name") + " (" + System.getProperty("os.arch") + ")", "UTF-8"));
 
 				/* We ONLY log usernames from HUTTON-DUNDEE-LAN addresses */
-				if (SystemUtils.isSCRIUser())
+				if (isSCRIUser())
 					builder.append("&user=")
 						   .append(URLEncoder.encode(System.getProperty("user.name"), "UTF-8"));
 
@@ -229,6 +227,38 @@ public class Install4jUtils
 
 		/* We run this in a separate thread to avoid any waits due to lack of an internet connection or the server being non-responsive */
 		new Thread(r).start();
+	}
+
+	private static boolean isSCRIUser()
+	{
+		try
+		{
+			Enumeration e = NetworkInterface.getNetworkInterfaces();
+
+			while (e != null && e.hasMoreElements())
+			{
+				Enumeration e2 = ((NetworkInterface) e.nextElement()).getInetAddresses();
+
+				while (e2.hasMoreElements())
+				{
+					String addr = ((InetAddress) e2.nextElement()).getHostAddress();
+					if (addr.startsWith("143.234.96.")
+							|| addr.startsWith("143.234.97.")
+							|| addr.startsWith("143.234.98.")
+							|| addr.startsWith("143.234.99.")
+							|| addr.startsWith("143.234.100.")
+							|| addr.startsWith("143.234.101."))
+					{
+						return true;
+					}
+				}
+			}
+		}
+		catch (Exception e)
+		{
+		}
+
+		return false;
 	}
 
 	public interface Callback
