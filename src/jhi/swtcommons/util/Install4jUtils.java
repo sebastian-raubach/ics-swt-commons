@@ -50,7 +50,7 @@ public class Install4jUtils
 
 	// Application details
 	private static String appID, updateID;
-	private static String defaultVersionNumber = "x.x.x";
+	private static String defaultVersionNumber = "x.xx.xx.xx";
 
 	private Callback callback = null;
 
