@@ -1,11 +1,18 @@
 /*
- * JHI-SWT-Commons is written and developed by Sebastian Raubach
- * from the Information and Computational Sciences Group at JHI Dundee.
- * For further information contact us at sebastian.raubach@hutton.ac.uk.
+ *  Copyright 2018 Information and Computational Sciences,
+ *  The James Hutton Institute.
  *
- * Copyright © 2014-2015, Information & Computational Sciences,
- * The James Hutton Institute. All rights reserved.
- * Use is subject to the accompanying licence terms.
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  */
 
 package jhi.swtcommons.gui.layout;
@@ -40,6 +47,7 @@ public class GridDataUtils
 		CENTER_BOTH(SWT.CENTER, SWT.CENTER, true, true),
 		CENTER_BOTH_FALSE(SWT.CENTER, SWT.CENTER, false, false),
 		CENTER_TOP(SWT.CENTER, SWT.TOP, true, false),
+		CENTER_TOP_FALSE(SWT.CENTER, SWT.TOP, false, false),
 		CENTER_BOTTOM(SWT.CENTER, SWT.BOTTOM, true, false),
 		CENTER_BOTTOM_FALSE(SWT.CENTER, SWT.BOTTOM, false, false);
 

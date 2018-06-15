@@ -1,11 +1,18 @@
 /*
- * JHI-SWT-Commons is written and developed by Sebastian Raubach
- * from the Information and Computational Sciences Group at JHI Dundee.
- * For further information contact us at sebastian.raubach@hutton.ac.uk.
+ *  Copyright 2018 Information and Computational Sciences,
+ *  The James Hutton Institute.
  *
- * Copyright © 2014-2015, Information & Computational Sciences,
- * The James Hutton Institute. All rights reserved.
- * Use is subject to the accompanying licence terms.
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  */
 
 package jhi.swtcommons.util;
@@ -23,18 +30,13 @@ public class ShellUtils
 {
 	private static final float WIDTH_FACTOR  = 0.3f;
 	private static final float HEIGHT_FACTOR = 0.43f;
-	public static final int   MIN_WIDTH     = 650;
-	public static final int   MIN_HEIGHT    = 450;
+	public static final  int   MIN_WIDTH     = 650;
+	public static final  int   MIN_HEIGHT    = 450;
 
 	/**
-	 * Applies a default size to the given {@link Shell}. The size is based on
-	 * {@link #WIDTH_FACTOR} and {@link #HEIGHT_FACTOR} multiplied with the
-	 * dimensions obtained from {@link Display#getPrimaryMonitor()} and
-	 * {@link Monitor#getBounds()}.
-	 * <p>
-	 * The minimal size will be {@link #MIN_WIDTH} x {@link #MIN_HEIGHT}
-	 * <p>
-	 * The maximal size will be equal to the dimensions of the current monitor
+	 * Applies a default size to the given {@link Shell}. The size is based on {@link #WIDTH_FACTOR} and {@link #HEIGHT_FACTOR} multiplied with the
+	 * dimensions obtained from {@link Display#getPrimaryMonitor()} and {@link Monitor#getBounds()}. <p> The minimal size will be {@link #MIN_WIDTH} x
+	 * {@link #MIN_HEIGHT} <p> The maximal size will be equal to the dimensions of the current monitor
 	 *
 	 * @param shell The {@link Shell} to apply the new dimensions to
 	 */
@@ -45,20 +47,15 @@ public class ShellUtils
 
         /* Calculate width: MIN_WIDTH <= width <= screen.width */
 		int width = Math.min(screen.width, Math.max(MIN_WIDTH, (int) (screen.width * WIDTH_FACTOR)));
-        /* Calculate height: MIN_HEIGHT <= height <= screen.height */
+		/* Calculate height: MIN_HEIGHT <= height <= screen.height */
 		int height = Math.min(screen.height, Math.max(MIN_HEIGHT, (int) (screen.height * HEIGHT_FACTOR)));
 
 		shell.setSize(width, height);
 	}
 
 	/**
-	 * Sets the minimal size to the shell by calling
-	 * {@link Shell#setMinimumSize(int, int)} the following values:
-	 * <ul>
-	 * <li>x: The minimum of <code>minWidth</code> and the
-	 * available screen width</li>
-	 * <li>y: The minimum of <code>minHeight</code> and
-	 * the available screen height</li>
+	 * Sets the minimal size to the shell by calling {@link Shell#setMinimumSize(int, int)} the following values: <ul> <li>x: The minimum of
+	 * <code>minWidth</code> and the available screen width</li> <li>y: The minimum of <code>minHeight</code> and the available screen height</li>
 	 * </ul>
 	 *
 	 * @param shell     The {@link Shell}
@@ -67,7 +64,7 @@ public class ShellUtils
 	 */
 	public static void setMinSize(Shell shell, int minWidth, int minHeight)
 	{
-        /* Get the current monitors dimensions */
+		/* Get the current monitors dimensions */
 		Rectangle screen = Display.getCurrent().getPrimaryMonitor().getBounds();
 
         /* Calculate width: minWidth <= width <= screen.width */
@@ -79,10 +76,8 @@ public class ShellUtils
 	}
 
 	/**
-	 * Returns the top left coordinates of a window with the given size centered
-	 * to the given parent.
-	 * <p>
-	 * The returned coordinates will never be outwith the display.
+	 * Returns the top left coordinates of a window with the given size centered to the given parent. <p> The returned coordinates will never be
+	 * outwith the display.
 	 *
 	 * @param parent   The parent {@link Shell} to center to
 	 * @param thisSize The size of the component to center

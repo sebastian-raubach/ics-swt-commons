@@ -17,18 +17,27 @@
 
 package jhi.swtcommons.util;
 
+import org.eclipse.swt.*;
+import org.eclipse.swt.graphics.*;
+import org.eclipse.swt.widgets.*;
+
 /**
  * @author Sebastian Raubach
  */
-public class CommonParameterStore extends ParameterStore
+public class ResourceUtils
 {
-	private static CommonParameterStore INSTANCE;
-
-	public static synchronized ParameterStore getInstance()
+	public static Image resize(Image image, int width, int height)
 	{
-		if (INSTANCE == null)
-			INSTANCE = new CommonParameterStore();
+		Image scaled = new Image(Display.getDefault(), width, height);
 
-		return INSTANCE;
+		GC gc = new GC(scaled);
+		gc.setAntialias(SWT.ON);
+		gc.setInterpolation(SWT.HIGH);
+		gc.drawImage(image, 0, 0, image.getBounds().width, image.getBounds().height, 0, 0, width, height);
+		gc.dispose();
+
+		image.dispose();
+
+		return scaled;
 	}
 }

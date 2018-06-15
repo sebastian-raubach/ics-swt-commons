@@ -1,11 +1,18 @@
 /*
- * JHI-SWT-Commons is written and developed by Sebastian Raubach
- * from the Information and Computational Sciences Group at JHI Dundee.
- * For further information contact us at sebastian.raubach@hutton.ac.uk.
+ *  Copyright 2018 Information and Computational Sciences,
+ *  The James Hutton Institute.
  *
- * Copyright © 2014-2015, Information & Computational Sciences,
- * The James Hutton Institute. All rights reserved.
- * Use is subject to the accompanying licence terms.
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  */
 
 package jhi.swtcommons.gui;
@@ -13,19 +20,18 @@ package jhi.swtcommons.gui;
 import org.eclipse.swt.*;
 import org.eclipse.swt.dnd.*;
 import org.eclipse.swt.widgets.*;
-import jhi.swtcommons.gui.i18n.*;
-import jhi.swtcommons.gui.layout.*;
-import jhi.swtcommons.util.*;
 
 import java.io.*;
 import java.util.*;
 import java.util.List;
 
+import jhi.swtcommons.gui.i18n.*;
+import jhi.swtcommons.gui.layout.*;
+import jhi.swtcommons.util.*;
+
 /**
  * A {@link RestartableApplication} is a simple SWT application that provides restart functionality. If used correctly, this will result in a complete
- * reset of the application.
- * <p>
- * Child classes <b>have to</b> set up their content in {@link #onStart()}
+ * reset of the application. <p> Child classes <b>have to</b> set up their content in {@link #onStart()}
  *
  * @author Sebastian Raubach
  */
@@ -38,10 +44,13 @@ public abstract class RestartableApplication
 
 	private PropertyReader propertyReader;
 
-	public RestartableApplication()
+	public RestartableApplication(boolean applySize, Integer style)
 	{
 		display = new Display();
-		shell = new Shell();
+		if(style == null)
+			shell = new Shell();
+		else
+			shell = new Shell(style);
 		initResources();
 
 		propertyReader = getPropertyReader();
@@ -73,8 +82,11 @@ public abstract class RestartableApplication
 		GridDataUtils.usePredefined(GridDataUtils.GridDataStyle.FILL_BOTH).applyTo(shell);
 
 		shell.pack();
-		ShellUtils.applySize(shell);
-		ShellUtils.setMinSize(shell, getMinWidth(), getMinHeight());
+		if(applySize)
+		{
+			ShellUtils.applySize(shell);
+			ShellUtils.setMinSize(shell, getMinWidth(), getMinHeight());
+		}
 		shell.setData(SHELL_ID);
 		shell.open();
 
@@ -88,6 +100,11 @@ public abstract class RestartableApplication
 			}
 		}
 		display.dispose();
+	}
+
+	public RestartableApplication()
+	{
+		this(true, null);
 	}
 
 	/**
@@ -195,9 +212,7 @@ public abstract class RestartableApplication
 	}
 
 	/**
-	 * Handles file drop events
-	 * <p>
-	 * Calls {@link #onFileDropped(List)} if there is at least one dropped file
+	 * Handles file drop events <p> Calls {@link #onFileDropped(List)} if there is at least one dropped file
 	 */
 	private void addDropListener()
 	{
@@ -244,10 +259,9 @@ public abstract class RestartableApplication
 	protected abstract PropertyReader getPropertyReader();
 
 	/**
-	 * Causes the application to restart.
-	 * <p>
-	 * This includes: <ul> <li>Calling {@link PropertyReader#store()}</li> <li>Calling {@link ParameterStore#clear()}</li> <li>Calling {@link
-	 * PropertyReader#load()}</li> <li>Calling {@link RB#reset()}</li> <li>Calling {@link RestartableApplication#onStart()}</li> </ul>
+	 * Causes the application to restart. <p> This includes: <ul> <li>Calling {@link PropertyReader#store()}</li> <li>Calling {@link
+	 * ParameterStore#clear()}</li> <li>Calling {@link PropertyReader#load()}</li> <li>Calling {@link RB#reset()}</li> <li>Calling {@link
+	 * RestartableApplication#onStart()}</li> </ul>
 	 */
 	protected void onRestart()
 	{
@@ -300,9 +314,7 @@ public abstract class RestartableApplication
 	}
 
 	/**
-	 * Called when the application starts or restarts.
-	 * <p>
-	 * Create all contents here.
+	 * Called when the application starts or restarts. <p> Create all contents here.
 	 */
 	protected abstract void onStart();
 
@@ -312,16 +324,12 @@ public abstract class RestartableApplication
 	protected abstract void onExit();
 
 	/**
-	 * Called to initialize all required resources
-	 * <p>
-	 * Sub-classes have to initialize all required resources
+	 * Called to initialize all required resources <p> Sub-classes have to initialize all required resources
 	 */
 	protected abstract void initResources();
 
 	/**
-	 * Called to dispose of all resources
-	 * <p>
-	 * Sub-classes have to dispose of all resources
+	 * Called to dispose of all resources <p> Sub-classes have to dispose of all resources
 	 */
 	protected abstract void disposeResources();
 }

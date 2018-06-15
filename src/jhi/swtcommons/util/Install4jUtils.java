@@ -1,11 +1,18 @@
 /*
- * JHI-SWT-Commons is written and developed by Sebastian Raubach
- * from the Information and Computational Sciences Group at JHI Dundee.
- * For further information contact us at sebastian.raubach@hutton.ac.uk.
+ *  Copyright 2018 Information and Computational Sciences,
+ *  The James Hutton Institute.
  *
- * Copyright © 2014-2015, Information & Computational Sciences,
- * The James Hutton Institute. All rights reserved.
- * Use is subject to the accompanying licence terms.
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  */
 
 package jhi.swtcommons.util;
@@ -16,6 +23,7 @@ import com.install4j.api.update.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.logging.*;
 
 /**
  * @author Sebastian Raubach
@@ -95,6 +103,7 @@ public class Install4jUtils
 	public void doStartUpCheck(Class jarClass)
 	{
 		getVersion(jarClass);
+		Logger.getLogger("").log(Level.INFO, "Version: " + VERSION);
 		pingServer();
 
 		Runnable r = this::checkForUpdate;
@@ -113,6 +122,7 @@ public class Install4jUtils
 	{
 		try
 		{
+			Logger.getLogger("").log(Level.INFO, "Update schedule: " + updateSchedule);
 			switch (updateSchedule)
 			{
 				case STARTUP:
@@ -134,12 +144,16 @@ public class Install4jUtils
 
 			if (!UpdateScheduleRegistry.checkAndReset())
 			{
+				Logger.getLogger("").log(Level.INFO, "Update: not the time to update yet");
 				return;
 			}
 
+			Logger.getLogger("").log(Level.INFO, "URL: " + updaterURL);
 			UpdateDescriptor ud = UpdateChecker.getUpdateDescriptor(updaterURL, ApplicationDisplayMode.GUI);
 
 			boolean newVersion = ud.getPossibleUpdateEntry() != null;
+
+			Logger.getLogger("").log(Level.INFO, "Has new version: " + newVersion);
 
 			if (newVersion)
 			{
@@ -192,32 +206,36 @@ public class Install4jUtils
 		Runnable r = () -> {
 			try
 			{
-				StringBuilder builder = new StringBuilder();
+				if(!StringUtils.isEmpty(trackerURL))
+				{
+					StringBuilder builder = new StringBuilder();
 
-				/* Safely encode the URL parameters */
-				builder.append(trackerURL)
-					   .append("?id=")
-					   .append(URLEncoder.encode(userID, "UTF-8"))
-					   .append("&version=")
-					   .append(URLEncoder.encode(VERSION, "UTF-8"))
-					   .append("&locale=")
-					   .append(URLEncoder.encode("" + Locale.getDefault(), "UTF-8"))
-					   .append("&rating=")
-					   .append(userRating)
-					   .append("&os=")
-					   .append(URLEncoder.encode(System.getProperty("os.name") + " (" + System.getProperty("os.arch") + ")", "UTF-8"));
+					/* Safely encode the URL parameters */
+					builder.append(trackerURL)
+						   .append("?id=")
+						   .append(URLEncoder.encode(userID, "UTF-8"))
+						   .append("&version=")
+						   .append(URLEncoder.encode(VERSION, "UTF-8"))
+						   .append("&locale=")
+						   .append(URLEncoder.encode("" + Locale.getDefault(), "UTF-8"))
+						   .append("&rating=")
+						   .append(userRating)
+						   .append("&os=")
+						   .append(URLEncoder.encode(System.getProperty("os.name") + " (" + System.getProperty("os.arch") + ")", "UTF-8"));
 
-				/* We ONLY log usernames from HUTTON-DUNDEE-LAN addresses */
-				if (isSCRIUser())
-					builder.append("&user=")
-						   .append(URLEncoder.encode(System.getProperty("user.name"), "UTF-8"));
+					/* We ONLY log usernames from HUTTON-DUNDEE-LAN addresses */
+					if (isSCRIUser())
+						builder.append("&user=")
+							   .append(URLEncoder.encode(System.getProperty("user.name"), "UTF-8"));
 
-				/* Nudges the cgi script to log the fact that a version of the application has been run */
-				URL url = new URL(builder.toString());
-				HttpURLConnection c = (HttpURLConnection) url.openConnection();
+					/* Nudges the cgi script to log the fact that a version of the application has been run */
+					URL url = new URL(builder.toString());
+					Logger.getLogger("").log(Level.INFO, "Pinging: " + url);
+					HttpURLConnection c = (HttpURLConnection) url.openConnection();
 
-				c.getResponseCode();
-				c.disconnect();
+					c.getResponseCode();
+					c.disconnect();
+				}
 			}
 			catch (Exception e)
 			{
@@ -229,28 +247,25 @@ public class Install4jUtils
 		new Thread(r).start();
 	}
 
+	/*
+	 * Returns true if the VM detects that it is running on an IP address known to be in use by SCRI.
+	 * @return true if the VM detects that it is running on an IP address known to be in use by SCRI
+	 */
 	private static boolean isSCRIUser()
 	{
 		try
 		{
-			Enumeration e = NetworkInterface.getNetworkInterfaces();
+			/* Need to check over all network interfaces (LAN/wireless/etc) to try and find a match... */
+			Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
 
-			while (e != null && e.hasMoreElements())
+			while (interfaces != null && interfaces.hasMoreElements())
 			{
-				Enumeration e2 = ((NetworkInterface) e.nextElement()).getInetAddresses();
-
-				while (e2.hasMoreElements())
+				/* And each interface can have multiple IPs... */
+				Enumeration<InetAddress> addresses = interfaces.nextElement().getInetAddresses();
+				while (addresses.hasMoreElements())
 				{
-					String addr = ((InetAddress) e2.nextElement()).getHostAddress();
-					if (addr.startsWith("143.234.96.")
-							|| addr.startsWith("143.234.97.")
-							|| addr.startsWith("143.234.98.")
-							|| addr.startsWith("143.234.99.")
-							|| addr.startsWith("143.234.100.")
-							|| addr.startsWith("143.234.101."))
-					{
+					if (addresses.nextElement().getHostAddress().startsWith("143.234."))
 						return true;
-					}
 				}
 			}
 		}

@@ -17,18 +17,36 @@
 
 package jhi.swtcommons.util;
 
+import java.util.*;
+
 /**
  * @author Sebastian Raubach
  */
-public class CommonParameterStore extends ParameterStore
+public class SystemUtils
 {
-	private static CommonParameterStore INSTANCE;
-
-	public static synchronized ParameterStore getInstance()
+	/**
+	 * Generates and returns a globally unique identifier of the given length. The ID will be made of the digits 0-9 and the letters A-F.
+	 *
+	 * @param size the length of the ID to generate
+	 * @return a globally unique identifier of the given length
+	 */
+	public static String createGUID(int size)
 	{
-		if (INSTANCE == null)
-			INSTANCE = new CommonParameterStore();
+		String id = "";
 
-		return INSTANCE;
+		Random rnd = new Random();
+		for (int i = 0; i < size; i++)
+		{
+			int code = rnd.nextInt(16);
+
+			// Use digits 0 to 9 to generate a number
+			if (code < 10)
+				id += code;
+				// Otherwise, generate an ASCII 65+ A to F letter
+			else
+				id += (char) (65 + (code - 10));
+		}
+
+		return id;
 	}
 }

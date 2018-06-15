@@ -1,24 +1,30 @@
 /*
- * JHI-SWT-Commons is written and developed by Sebastian Raubach
- * from the Information and Computational Sciences Group at JHI Dundee.
- * For further information contact us at sebastian.raubach@hutton.ac.uk.
+ *  Copyright 2018 Information and Computational Sciences,
+ *  The James Hutton Institute.
  *
- * Copyright © 2014-2015, Information & Computational Sciences,
- * The James Hutton Institute. All rights reserved.
- * Use is subject to the accompanying licence terms.
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  */
 
 package jhi.swtcommons.util;
 
 import org.eclipse.jface.dialogs.*;
 import org.eclipse.swt.widgets.*;
+
 import jhi.swtcommons.gui.i18n.*;
 
 /**
  * {@link DialogUtils} contains methods to create {@link MessageDialog}s. All {@link MessageDialog}s are opened on the main thread, which makes
- * calling these methods from any thread safe.
- * <p>
- * This is accomplished my utilizing {@link Display#asyncExec(Runnable)}.
+ * calling these methods from any thread safe. <p> This is accomplished my utilizing {@link Display#asyncExec(Runnable)}.
  *
  * @author Sebastian Raubach
  */
@@ -124,12 +130,9 @@ public class DialogUtils
 	}
 
 	/**
-	 * Handles the {@link Exception} based on its type.
-	 * <p>
-	 * The fallback solution is to simply call {@link #showError(String)} with {@link Exception#getLocalizedMessage()}. Depending on the type of
-	 * {@link Exception}, the behaviour may differ.
-	 * <p>
-	 * In any case, {@link Exception#printStackTrace()} is called just before the method returns
+	 * Handles the {@link Exception} based on its type. <p> The fallback solution is to simply call {@link #showError(String)} with {@link
+	 * Exception#getLocalizedMessage()}. Depending on the type of {@link Exception}, the behaviour may differ. <p> In any case, {@link
+	 * Exception#printStackTrace()} is called just before the method returns
 	 *
 	 * @param e The {@link Exception}
 	 */
